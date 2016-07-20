@@ -1,0 +1,31 @@
+{
+    "name": "apiness/laravel-transformers",
+    "description": "A presentation layer for transforming data output when building an API",
+    "type": "Library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Apiness",
+            "email": "info@apiness.ch"
+        }
+    ],
+    "require": {
+        "php": ">= 5.5.9",
+        "illuminate/support": "^5.2",
+        "illuminate/database": "^5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.4",
+        "mockery/mockery": "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Apiness\\Transformers\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "Apiness\\Transformers\\Tests\\" : "tests/"
+        }
+    }
+}
