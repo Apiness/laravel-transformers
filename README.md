@@ -24,7 +24,7 @@ In your file `composer.json`, add the repository and the requirement
 
 Override the Base transformer like in the following example:
 
-```
+```php
 use Apiness\Transformers\BaseTransformer;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,7 +42,7 @@ class ModelTransformer extends BaseTransformer {
 
 For transforming the model you can use the `process` method:
 
-```
+```php
 $transformer = new ModelTransformer(
 	[
 		'nested_model' => new NestedModelTransformer()
