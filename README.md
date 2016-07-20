@@ -10,9 +10,11 @@ In your file `composer.json`, add the repository and the requirement
 
 ```
 {
-	"repository": [
-		"type": "vsc",
-		"url": "https://github.com/Apiness/laravel-transformers"
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Apiness/laravel-transformers"
+		}
 	],
 	"require": {
         "apiness/laravel-transformers": "dev-master"
