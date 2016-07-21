@@ -3,7 +3,6 @@
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Apiness\Transformers\Exceptions\TypeErrorException;
-use Apiness\Transformers\Exceptions\NoRelationForTransformerException;
 
 abstract class BaseTransformer {
 
@@ -60,9 +59,6 @@ abstract class BaseTransformer {
 			if (array_key_exists($key, $relations)) {
 				$data = $nestedTransformer->process($relations[$key]);
 				$result[$key] = $data;
-			}
-			else {
-				throw new NoRelationForTransformerException("the model doesn't have a relation for the nested transformer \"$key\"");
 			}
 		}
 

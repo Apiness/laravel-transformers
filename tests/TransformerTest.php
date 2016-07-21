@@ -6,7 +6,6 @@ use Apiness\Transformers\Tests\Stubs\NestedModelStub;
 use Apiness\Transformers\Tests\Stubs\ModelTransformer;
 use Apiness\Transformers\Exceptions\TypeErrorException;
 use Apiness\Transformers\Tests\Stubs\NestedModelTransformer;
-use Apiness\Transformers\Exceptions\NoRelationForTransformerException;
 use Mockery;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -124,19 +123,6 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(array_key_exists('nested_model', $result2));
 
 		$this->assertTrue(array_key_exists('history', $result2['nested_model']));
-	}
-
-	/** @test **/
-	public function it_throw_an_exception_if_the_nested_transformer_not_match_with_any_relation()
-	{
-		$transformer = new ModelTransformer(
-			[
-				'nested' => new NestedModelTransformer()
-			]
-		);
-
-		$this->expectException(NoRelationForTransformerException::class);
-		$transformer->process($this->collections);
 	}
 
 	/** @test **/
