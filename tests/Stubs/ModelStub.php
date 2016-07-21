@@ -10,4 +10,5 @@ class ModelStub extends Model {
 	{
 		return $this->hasMany(NestedModelStub::class);
 	}
+
 }

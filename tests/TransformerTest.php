@@ -1,17 +1,16 @@
 <?php namespace Apiness\Transformers\Tests;
 
-
+use Mockery;
+use Carbon\Carbon;
+use PHPUnit_Framework_TestCase;
+use Illuminate\Support\Collection;
+use Apiness\Transformers\TypeErrorException;
 use Apiness\Transformers\Tests\Stubs\ModelStub;
 use Apiness\Transformers\Tests\Stubs\NestedModelStub;
 use Apiness\Transformers\Tests\Stubs\ModelTransformer;
-use Apiness\Transformers\Exceptions\TypeErrorException;
 use Apiness\Transformers\Tests\Stubs\NestedModelTransformer;
-use Mockery;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
-class TransformerTest extends \PHPUnit_Framework_TestCase {
-
+class TransformerTest extends PHPUnit_Framework_TestCase {
 
 	protected $mockedModel;
 	protected $nestedModel;
@@ -41,7 +40,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/** @test */
-	public function it_test_a_transformation_without_nested_transformers()
+	public function it_performs_a_transformation_without_nested_transformers()
 	{
 		$transformer = new ModelTransformer();
 		$result = $transformer->process($this->mockedModel);
@@ -52,7 +51,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/** @test */
-	public function it_test_a_transformation_with_a_nested_transformers()
+	public function it_performs_a_transformation_with_nesteds_transformers()
 	{
 		$transformer = new ModelTransformer(
 			[
@@ -72,7 +71,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/** @test */
-	public function it_test_a_transformation_of_a_collection_without_a_nested_transformers()
+	public function it_transforms_a_collection_without_nested_transformers()
 	{
 		$transformer = new ModelTransformer();
 
@@ -94,7 +93,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/** @test */
-	public function it_test_a_transformation_of_a_collection_with_a_nested_transformers()
+	public function it_transforms_collection_with_nested_transformers()
 	{
 		$transformer = new ModelTransformer(
 			[
@@ -126,7 +125,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/** @test **/
-	public function it_throw_an_exception_if_the_data_given_is_not_a_model_or_a_collection()
+	public function it_throws_an_exception_if_the_data_given_is_not_a_model_or_a_collection()
 	{
 		$transformer = new ModelTransformer(
 			[

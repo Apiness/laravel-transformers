@@ -10,4 +10,5 @@ class NestedModelStub extends Model {
 	{
 		return $this->belongsTo(ModelStub::class);
 	}
+
 }

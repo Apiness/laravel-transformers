@@ -1,6 +1,6 @@
 {
     "name": "apiness/laravel-transformers",
-    "description": "A presentation layer for transforming data output when building an API",
+    "description": "A presentation layer for transforming data output when building an API.",
     "type": "Library",
     "license": "MIT",
     "authors": [

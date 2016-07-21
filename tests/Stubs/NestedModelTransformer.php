@@ -1,9 +1,9 @@
 <?php namespace Apiness\Transformers\Tests\Stubs;
 
+use Apiness\Transformers\Transformer;
 use Illuminate\Database\Eloquent\Model;
-use Apiness\Transformers\BaseTransformer;
 
-class NestedModelTransformer extends BaseTransformer {
+class NestedModelTransformer extends Transformer {
 
 	protected function transformModel(Model $model)
 	{
@@ -11,4 +11,5 @@ class NestedModelTransformer extends BaseTransformer {
 			'history' => $model->history
 		];
 	}
+
 }

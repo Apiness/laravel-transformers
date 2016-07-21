@@ -1,12 +1,18 @@
-# Transformer
+# Laravel Transformers
 
 [![Build Status](https://travis-ci.org/Apiness/laravel-transformers.svg?branch=master)](https://travis-ci.org/Apiness/laravel-transformers)
 
-Transformer is a presentation layer for transforming data output when building an API.
+This package is a presentation layer for transforming data output when building an API.
+
+## Requirements
+
+- PHP 5.6+
+- Laravel 5.2+
+
 
 ## Installation
 
-In your file `composer.json`, add the repository and the requirement
+Pull this package in through Composer, by updating the `composer.json` as follows:
 
 ```
 {
@@ -17,32 +23,32 @@ In your file `composer.json`, add the repository and the requirement
 		}
 	],
 	"require": {
-        "apiness/laravel-transformers": "dev-master"
+        "apiness/laravel-transformers": "~1.0"
     }
 }
 ```
 
-## How to use
+## Usage
 
-Override the Base transformer like in the following example:
+Override the abstract `Transformer` class to create a custom transformer on your entity:
 
 ```php
-use Apiness\Transformers\BaseTransformer;
+use Apiness\Transformers\Transformer;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelTransformer extends BaseTransformer {
+class ModelTransformer extends Transformer {
 
 	protected function transformModel(Model $model)
 	{
 		return [
-			'title' => $model->title,
+			'title'     => $model->title,
 			'is_active' => $model->is_active
 		];
 	}
 }
 ```
 
-For transforming the model you can use the `process` method:
+For transforming the model, you need to call the `process` method:
 
 ```php
 $transformer = new ModelTransformer(

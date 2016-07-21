@@ -2,15 +2,14 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Apiness\Transformers\Exceptions\TypeErrorException;
 
-abstract class BaseTransformer {
+abstract class Transformer {
 
 	protected $nestedTransformers;
 
-	public function __construct($nestedTransformer = [])
+	public function __construct($transformers = [])
 	{
-		$this->nestedTransformers = $nestedTransformer;
+		$this->nestedTransformers = $transformers;
 	}
 
 	public function process($data)
@@ -20,6 +19,7 @@ abstract class BaseTransformer {
 		}
 
 		$result = [];
+
 		if ($data instanceof Collection) {
 			$data->each(function($model) use(&$result) {
 				$result[] = $this->transform($model);
@@ -30,6 +30,11 @@ abstract class BaseTransformer {
 		}
 
 		return $result;
+	}
+
+	public function perform($data)
+	{
+		return $this->process($data);
 	}
 
 	private function transform(Model $model)
@@ -55,9 +60,9 @@ abstract class BaseTransformer {
 
 		$result = [];
 
-		foreach ($this->nestedTransformers as $key => $nestedTransformer) {
+		foreach ($this->nestedTransformers as $key => $transformer) {
 			if (array_key_exists($key, $relations)) {
-				$data = $nestedTransformer->process($relations[$key]);
+				$data = $transformer->process($relations[$key]);
 				$result[$key] = $data;
 			}
 		}
