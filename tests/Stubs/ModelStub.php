@@ -1,8 +1,11 @@
-<?php namespace Apiness\Transformers\Tests\Stubs;
+<?php namespace Tests\Stubs;
 
 use Illuminate\Database\Eloquent\Model;
+use Zaltana\Transformers\Transformable;
 
 class ModelStub extends Model {
+
+	use Transformable;
 
 	protected $fillable = [ 'name', 'title', 'is_active', 'date' ];
 

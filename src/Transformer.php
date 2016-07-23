@@ -1,69 +1,96 @@
-<?php namespace Apiness\Transformers;
+<?php namespace Zaltana\Transformers;
 
+use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Pagination\Paginator;
 
+/**
+ * Transformer classes should extend this abstract class to perform transformations on specific entities.
+ */
 abstract class Transformer {
 
 	protected $nestedTransformers;
 
-	public function __construct($transformers = [])
+	/**
+	 * Initialize a new Transformer object.
+	 *
+	 * @param array $transformers Nested transformers used to transform relationships.
+	 */
+	public function __construct(array $transformers = [])
 	{
 		$this->nestedTransformers = $transformers;
 	}
 
+	/**
+	 * Initialize and return a new Tranformer object with nested transformers used to transform relationships.
+	 *
+	 * @param array $transformers Nested transformers used to transform relationships.
+	 *
+	 * @return static A newly initialized transformer object with the given nested transformers.
+	 */
+	public static function with(array $transformers = [])
+	{
+		return new static($transformers);
+	}
+
+	/**
+	 * @param mixed $data The data to be transformed.
+	 *
+	 * @return array The transformed data.
+	 */
 	public function process($data)
 	{
-		if (!$data instanceof  Collection && !$data instanceof Model) {
-			throw new TypeErrorException('$data must be a collection or a model');
+		// If the data is a collection of items, we need to transform each item
+		// Otherwise, we transform the object directly
+
+		if (($collection = $this->normalizeToCollection($data)) instanceof Collection) {
+			return $collection->map(function($model) {
+				return $this->performTransformation($model);
+			})->all();
 		}
 
-		$result = [];
-
-		if ($data instanceof Collection) {
-			$data->each(function($model) use(&$result) {
-				$result[] = $this->transform($model);
-			});
-		}
-		else if ($data instanceof Model) {
-			$result = array_merge($result, $this->transform($data));
-		}
-
-		return $result;
+		return $this->performTransformation($data);
 	}
 
-	public function perform($data)
+	protected function normalizeToCollection($data)
 	{
-		return $this->process($data);
+		if (is_array($data)) {
+			return new Collection($data);
+		}
+		else if ($data instanceof Paginator) {
+			return new Collection($data->items());
+		}
+
+		return $data;
 	}
 
-	private function transform(Model $model)
+	protected function performTransformation($model)
 	{
-		$result = [];
-
-		$flatModel = $this->transformModel($model);
-		$result = array_merge($result, $flatModel);
+		$result = $this->transform($model);
 
 		if (!empty($this->nestedTransformers)) {
-			$relations = $this->transformRelations($model);
-			$result = array_merge($result, $relations);
+			$result = array_merge($result, $this->transformRelations($model));
 		}
 
 		return $result;
 	}
 
-	protected abstract function transformModel(Model $model);
+	protected abstract function transform($model);
 
-	protected function transformRelations(Model $model)
+	protected function transformRelations($model)
 	{
-		$relations = $model->getRelations();
+		if (!$model instanceof Model) {
+			throw new InvalidArgumentException("Nested transformations can only be applied on ".Model::class." subclasses, not on ".get_class($model)."!");
+		}
 
 		$result = [];
 
-		foreach ($this->nestedTransformers as $key => $transformer) {
-			if (array_key_exists($key, $relations)) {
-				$data = $transformer->process($relations[$key]);
-				$result[$key] = $data;
+		$relations = $model->getRelations();
+
+		foreach ($this->nestedTransformers as $relation => $transformer) {
+			if (array_key_exists($relation, $relations)) {
+				$result[ $relation ] = $transformer->process($relations[ $relation ]);
 			}
 		}
 

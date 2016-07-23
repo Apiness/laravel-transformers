@@ -1,12 +1,16 @@
 {
-    "name": "apiness/laravel-transformers",
+    "name": "zaltana/transformers",
     "description": "A presentation layer for transforming data output when building an API.",
     "type": "Library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Apiness",
-            "email": "info@apiness.ch"
+            "name": "Nicolas Marfurt",
+            "email": "nmarfurt@gmail.com"
+        },
+        {
+            "name": "Nicolas Brosy",
+            "email": "nicolas.brosy@gmail.com"
         }
     ],
     "require": {
@@ -20,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Apiness\\Transformers\\": "src/"
+            "Zaltana\\Transformers\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4" : {
-            "Apiness\\Transformers\\Tests\\" : "tests/"
+            "Tests\\" : "tests/"
         }
     }
 }

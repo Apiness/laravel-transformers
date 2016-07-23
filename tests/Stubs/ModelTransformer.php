@@ -1,11 +1,10 @@
-<?php namespace Apiness\Transformers\Tests\Stubs;
+<?php namespace Tests\Stubs;
 
-use Apiness\Transformers\Transformer;
-use Illuminate\Database\Eloquent\Model;
+use Zaltana\Transformers\Transformer;
 
 class ModelTransformer extends Transformer {
 
-	protected function transformModel(Model $model)
+	protected function transform($model)
 	{
 		return [
 			'title'     => $model->title,
@@ -14,3 +13,5 @@ class ModelTransformer extends Transformer {
 	}
 
 }
+
+class ModelStubTransformer extends ModelTransformer {}

@@ -2,13 +2,11 @@
 
 use Zaltana\Transformers\Transformer;
 
-class NestedModelTransformer extends Transformer {
+class EmptyTransformer extends Transformer {
 
 	protected function transform($model)
 	{
-		return [
-			'history' => $model->history
-		];
+		return [];
 	}
 
 }
