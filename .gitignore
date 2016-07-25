@@ -1,2 +1,14 @@
-.idea/
+# General
+.DS_Store
+Thumbs.db
+
+# Editors
+.sublime-workspace
+/.idea
+/*.iml
+_ide_helper.php
+
+# Package
 /vendor/
+composer.lock
+
